@@ -2,8 +2,10 @@ import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react
 
 import { Icon } from '@rneui/base';
 import React from 'react'
+import { selectOrigin } from '../slices/navSlice';
 import tw from 'twrnc';
 import { useNavigation } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
 
 const data = [
     {
@@ -22,6 +24,7 @@ const data = [
 
 const NavOptions = () => {
   const navigation = useNavigation();
+  const origin = useSelector(selectOrigin);
 
   return (
     <FlatList
@@ -32,8 +35,9 @@ const NavOptions = () => {
         renderItem={({item})=>(
             <TouchableOpacity style={tw `p-2 pl-6 pb-8 pt-4 bg-gray-200 m-2`}
                 onPress={()=> navigation.navigate(item.screen)}
+                disabled={!origin}
             >
-                <View>
+                <View style={tw`${!origin? 'opacity-20': 'opacity-100'}`}>
                     <Image
                         style={{width: 120, height: 120, resizeMode: 'contain'}}
                         source={{uri: item.image}}
@@ -51,4 +55,5 @@ const NavOptions = () => {
 
 export default NavOptions
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+})
